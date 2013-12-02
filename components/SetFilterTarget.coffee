@@ -1,7 +1,7 @@
 noflo = require 'noflo'
 Seriously = require '/forresto-seriously'
 
-class SeriouslyEffect extends noflo.Component
+class SetFilterTarget extends noflo.Component
   constructor: () ->
     if (!window.nofloSeriously)
       window.nofloSeriously = new Seriously()
@@ -11,16 +11,37 @@ class SeriouslyEffect extends noflo.Component
       source: new noflo.Port 'object'
       target: new noflo.Port 'object'
 
-    @inPorts.source.on('addEdge', @syncSource);
-    @inPorts.target.on('addEdge', @syncTarget);
+    @inPorts.source.on('connect', @syncSource);
+    # @inPorts.source.on('disconnect', @unsyncSource);
+    @inPorts.target.on('data', @setTarget);
 
   syncSource: (event) =>
-    console.log event
-    # if (@seriouslyNode)
-    #   @seriouslyNode.source = 
+    upstream = event.from.process.component.seriouslyNode
+    if (!upstream)
+      return;
+    if (@seriouslyNode)
+      @seriouslyNode.source = upstream
+      @seriouslyGo()
+    else
+      # Connect later
+      @upstream = upstream
 
-  syncTarget: (event) =>
-    console.log event
-    # @seriouslyNode = @seriously.target();
+  # unsyncSource: (event) =>
+  #   @seriouslyNode.source = null
+  #   if @seriouslyStarted 
+  #     @seriously.stop()
+  #     @seriouslyStarted = false
 
-exports.getComponent = -> new SeriouslyEffect
+  setTarget: (data) =>
+    @seriouslyNode = @seriously.target(data);
+    if @upstream
+      @seriouslyNode.source = @upstream
+      @seriouslyGo()
+      @upstream = null
+
+  seriouslyGo: () =>
+    if (!@seriouslyStarted)
+      @seriously.go()
+      @seriouslyStarted = true
+
+exports.getComponent = -> new SetFilterTarget

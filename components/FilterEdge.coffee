@@ -7,6 +7,5 @@ seriouslyEdge = require '/forresto-seriously/effects/seriously.edge.js'
 class FilterEdge extends SeriouslyEffect
   constructor: ->
     super "edge", 1
-    console.log "FilterEdge constructor", seriouslyEdge
 
 exports.getComponent = -> new FilterEdge
