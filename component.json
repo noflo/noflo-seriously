@@ -1,0 +1,29 @@
+{
+  "name": "noflo-seriously",
+  "description": "Seriously.js WebGL shader image effects for NoFlo.",
+  "author": "Forrest Oliphant and Brian Chirls <forrest@sembiki.com>",
+  "repo": "forresto/noflo-seriously",
+  "version": "0.1.0",
+  "keywords": [
+  ],
+  "dependencies": {
+    "noflo/noflo": "*",
+    "forresto/seriously": "*"
+  },
+  "scripts": [
+    "index.js",
+    "components/SetFilterTarget.coffee",
+    "lib/SeriouslyEffect.coffee",
+    "components/FilterEdge.coffee"
+  ],
+  "json": [
+    "component.json"
+  ],
+  "noflo": {
+    "icon": "film",
+    "components": {
+      "SetFilterTarget": "components/SetFilterTarget.coffee",
+      "FilterEdge": "components/FilterEdge.coffee"
+    }
+  }
+}
