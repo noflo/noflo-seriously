@@ -1,0 +1,11 @@
+noflo = require 'noflo'
+Seriously = require '/forresto-seriously'
+seriouslyEdge = require '/forresto-seriously/effects/seriously.bleach-bypass.js'
+
+{SeriouslyEffect} = require '../lib/SeriouslyEffect'
+
+class FilterBleachBypass extends SeriouslyEffect
+  constructor: ->
+    super "bleach-bypass", 1
+
+exports.getComponent = -> new FilterBleachBypass
