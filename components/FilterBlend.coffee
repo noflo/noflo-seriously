@@ -1,6 +1,6 @@
 noflo = require 'noflo'
 Seriously = require '../vendor/seriously.js'
-seriouslyEdge = require '../vendor/effects/seriously.blend.js'
+Effect = require '../vendor/effects/seriously.blend.js'
 
 {SeriouslyEffect} = require '../lib/SeriouslyEffect'
 

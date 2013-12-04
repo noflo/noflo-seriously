@@ -3,38 +3,31 @@ Seriously = require '../vendor/seriously.js'
 
 class exports.SeriouslyEffect extends noflo.Component
   constructor: (filterName, imageInCount) ->
-    if (!imageInCount?)
-      imageInCount = 1
     if (!window.nofloSeriously)
       window.nofloSeriously = new Seriously()
     @seriously = window.nofloSeriously
 
-    @seriouslyNode = @seriously.effect(filterName);
+    @seriouslyNode = @seriously.effect(filterName)
+
+    effectInfo = @seriously.effects()[filterName]
+    if effectInfo.description?.length
+      @description = effectInfo.description
 
     @inPorts = {}
     @outPorts =
-      filter: new noflo.Port
+      filter: new noflo.Port 'seriously'
 
-    if (imageInCount == 1)
-      # normal filters
-      @inPorts = 
-        source: new noflo.Port 'object'
-      # connect listener
-      @inPorts.source.on('connect', @syncGraph);
-      @inPorts.source.on('data', @setSource);
-    else if (imageInCount == 2)
-      # blending filters
-      @inPorts = 
-        top: new noflo.Port 'object'
-        bottom: new noflo.Port 'object'
-      # connect listeners
-      @inPorts.top.on('connect', @syncGraph);
-      @inPorts.bottom.on('connect', @syncGraph);
-    else 
-      throw new Error 'Seriously effects should have one or two image inputs.'
-
-    # for p in parameters
-    #   @inPorts[p]
+    for own key, input of effectInfo.inputs
+      type = input.type
+      if type is 'image'
+        type = 'seriously'
+      @inPorts[key] = new noflo.Port type
+      if type is 'seriously'
+        @inPorts[key].on 'connect', @syncGraph
+        @inPorts[key].on 'data', @setSource
+      else
+        #TODO key
+        @inPorts[key].on 'data', @setParam
 
   syncGraph: (event) =>
     # Connect another effect to this effect
@@ -46,6 +39,11 @@ class exports.SeriouslyEffect extends noflo.Component
 
   setSource: (data) =>
     # Connect DOM element to this effect
+    console.log "source", data
     @seriouslyNode.source = data
     if @outPorts.filter.isAttached() and !@outPorts.filter.isConnected()
       @outPorts.filter.connect();
+
+  setParam: (key, data) =>
+    # TODO key?
+    # console.log "param", data
