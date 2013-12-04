@@ -40,7 +40,7 @@ class exports.SeriouslyEffect extends noflo.Component
     # Connect another effect to this effect
     upstream = event.from.process.component.seriouslyNode
     if (upstream)
-      @seriouslyNode.source = upstream
+      @seriouslyNode[event.to.port] = upstream
       if @outPorts.filter.isAttached()
         @outPorts.filter.connect();
 
