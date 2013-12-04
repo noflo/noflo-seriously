@@ -1,6 +1,6 @@
 noflo = require 'noflo'
-Seriously = require '/forresto-seriously'
-seriouslyEdge = require '/forresto-seriously/effects/seriously.hex.js'
+Seriously = require '../vendor/seriously.js'
+seriouslyEdge = require '../vendor/effects/seriously.hex.js'
 
 {SeriouslyEffect} = require '../lib/SeriouslyEffect'
 

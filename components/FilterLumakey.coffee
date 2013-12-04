@@ -1,6 +1,6 @@
 noflo = require 'noflo'
-Seriously = require '/forresto-seriously'
-seriouslyEdge = require '/forresto-seriously/effects/seriously.lumakey.js'
+Seriously = require '../vendor/seriously.js'
+seriouslyEdge = require '../vendor/effects/seriously.lumakey.js'
 
 {SeriouslyEffect} = require '../lib/SeriouslyEffect'
 

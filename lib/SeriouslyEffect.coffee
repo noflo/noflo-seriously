@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-Seriously = require '/forresto-seriously'
+Seriously = require '../vendor/seriously.js'
 
 class exports.SeriouslyEffect extends noflo.Component
   constructor: (filterName, imageInCount) ->

@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-Seriously = require '/forresto-seriously'
+Seriously = require '../vendor/seriously.js'
 
 class SetFilterTarget extends noflo.Component
   constructor: () ->
