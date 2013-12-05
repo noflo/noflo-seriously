@@ -17,7 +17,6 @@ class SetFilterTarget extends noflo.Component
     @inPorts.target.on('data', @setTarget);
 
   syncSource: (upstream) =>
-    console.log 'target', upstream
     return unless upstream
     if @seriouslyNode
       @seriouslyNode.source = upstream
@@ -35,7 +34,6 @@ class SetFilterTarget extends noflo.Component
   setTarget: (data) =>
     @seriouslyNode = @seriously.target(data);
     if @upstream
-      console.log @upstream
       @seriouslyNode.source = @upstream
       @seriouslyGo()
       @upstream = null

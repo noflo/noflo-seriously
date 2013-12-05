@@ -30,7 +30,6 @@ class exports.SeriouslyEffect extends noflo.Component
         @inPorts[key].on 'data', @setParam.bind(@,key)
 
   syncGraph: (inport, upstream) ->
-    console.log inport, upstream
     # Connect another effect to this effect
     return unless upstream
     @sources[inport] = upstream
