@@ -27,7 +27,7 @@ class exports.SeriouslyEffect extends noflo.Component
         @inPorts[key].on 'data', @setSource
       else
         #TODO key
-        @inPorts[key].on 'data', @setParam
+        @inPorts[key].on 'data', @setParam.bind(@,key)
 
   syncGraph: (event) =>
     # Connect another effect to this effect
@@ -39,11 +39,9 @@ class exports.SeriouslyEffect extends noflo.Component
 
   setSource: (data) =>
     # Connect DOM element to this effect
-    console.log "source", data
     @seriouslyNode.source = data
     if @outPorts.filter.isAttached() and !@outPorts.filter.isConnected()
       @outPorts.filter.connect();
 
-  setParam: (key, data) =>
-    # TODO key?
-    # console.log "param", data
+  setParam: (key, data) -> # this is bound, so use -> not =>
+    @seriouslyNode[key] = data
