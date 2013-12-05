@@ -2,10 +2,12 @@ noflo = require 'noflo'
 Seriously = require '../vendor/seriously.js'
 
 class exports.SeriouslyEffect extends noflo.Component
+
   constructor: (filterName, imageInCount) ->
     if (!window.nofloSeriously)
       window.nofloSeriously = new Seriously()
     @seriously = window.nofloSeriously
+    @sources = {}
 
     @seriouslyNode = @seriously.effect(filterName)
 
@@ -15,33 +17,36 @@ class exports.SeriouslyEffect extends noflo.Component
 
     @inPorts = {}
     @outPorts =
-      filter: new noflo.Port 'seriously'
+      out: new noflo.ArrayPort 'object'
 
     for own key, input of effectInfo.inputs
       type = input.type
       if type is 'image'
-        type = 'seriously'
-      @inPorts[key] = new noflo.Port type
-      if type is 'seriously'
-        @inPorts[key].on 'connect', @syncGraph
-        @inPorts[key].on 'data', @setSource
+        @inPorts[key] = new noflo.Port 'object'
+        @inPorts[key].on 'data', @syncGraph.bind @, key
+        @inPorts[key].on 'disconnect', @unsyncGraph.bind @, key
       else
-        #TODO key
+        @inPorts[key] = new noflo.Port type
         @inPorts[key].on 'data', @setParam.bind(@,key)
 
-  syncGraph: (event) =>
+  syncGraph: (inport, upstream) ->
+    console.log inport, upstream
     # Connect another effect to this effect
-    upstream = event.from.process.component.seriouslyNode
-    if (upstream)
-      @seriouslyNode[event.to.port] = upstream
-      if @outPorts.filter.isAttached()
-        @outPorts.filter.connect();
+    return unless upstream
+    @sources[inport] = upstream
+    @seriouslyNode[inport] = upstream
+    if @outPorts.out.isAttached()
+      @outPorts.out.send @seriouslyNode
 
-  setSource: (data) =>
-    # Connect DOM element to this effect
-    @seriouslyNode.source = data
-    if @outPorts.filter.isAttached() and !@outPorts.filter.isConnected()
-      @outPorts.filter.connect();
+  unsyncGraph: (inport) ->
+    @seriouslyNode[inport] = null
+    delete @sources[inport]
+    if @outPorts.out.isAttached()
+      @outPorts.out.disconnect()
 
   setParam: (key, data) -> # this is bound, so use -> not =>
     @seriouslyNode[key] = data
+
+  shutdown: ->
+    for key, val of @sources
+      @unsyncGraph key

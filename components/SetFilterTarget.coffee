@@ -2,39 +2,40 @@ noflo = require 'noflo'
 Seriously = require '../vendor/seriously.js'
 
 class SetFilterTarget extends noflo.Component
+
   constructor: () ->
     if (!window.nofloSeriously)
       window.nofloSeriously = new Seriously()
     @seriously = window.nofloSeriously
 
     @inPorts = 
-      source: new noflo.Port 'object'
+      source: new noflo.ArrayPort 'object' # seriously
       target: new noflo.Port 'object'
 
-    @inPorts.source.on('connect', @syncSource);
-    # @inPorts.source.on('disconnect', @unsyncSource);
+    @inPorts.source.on('data', @syncSource);
+    @inPorts.source.on('disconnect', @unsyncSource);
     @inPorts.target.on('data', @setTarget);
 
-  syncSource: (event) =>
-    upstream = event.from.process.component.seriouslyNode
-    if (!upstream)
-      return;
-    if (@seriouslyNode)
+  syncSource: (upstream) =>
+    console.log 'target', upstream
+    return unless upstream
+    if @seriouslyNode
       @seriouslyNode.source = upstream
       @seriouslyGo()
     else
       # Connect later
       @upstream = upstream
 
-  # unsyncSource: (event) =>
-  #   @seriouslyNode.source = null
-  #   if @seriouslyStarted 
-  #     @seriously.stop()
-  #     @seriouslyStarted = false
+  unsyncSource: (event) =>
+    # TODO noflo bug?
+    if @seriouslyStarted 
+      @seriously.stop()
+      @seriouslyStarted = false
 
   setTarget: (data) =>
     @seriouslyNode = @seriously.target(data);
     if @upstream
+      console.log @upstream
       @seriouslyNode.source = @upstream
       @seriouslyGo()
       @upstream = null

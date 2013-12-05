@@ -4,8 +4,7 @@
   "author": "Forrest Oliphant and Brian Chirls <forrest@sembiki.com>",
   "repo": "forresto/noflo-seriously",
   "version": "0.1.0",
-  "keywords": [
-  ],
+  "keywords": [],
   "dependencies": {
     "noflo/noflo": "*"
   },
@@ -54,6 +53,7 @@
     "vendor/effects/seriously.whitebalance.js",
     "vendor/transforms/seriously.camerashake.js",
     "vendor/transforms/seriously.transform3d.js",
+    "components/SetFilterSource.coffee",
     "components/SetFilterTarget.coffee",
     "lib/SeriouslyEffect.coffee",
     "components/FilterAscii.coffee",
@@ -89,6 +89,7 @@
   "noflo": {
     "icon": "film",
     "components": {
+      "SetSource": "components/SetFilterSource.coffee",
       "SetTarget": "components/SetFilterTarget.coffee",
       "Ascii": "components/FilterAscii.coffee",
       "BleachBypass": "components/FilterBleachBypass.coffee",
