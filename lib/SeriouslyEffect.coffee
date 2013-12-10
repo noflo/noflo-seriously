@@ -20,31 +20,34 @@ class exports.SeriouslyEffect extends noflo.Component
       out: new noflo.ArrayPort 'object'
 
     for own key, input of effectInfo.inputs
+      seriouslyPort = key
+      nofloPort = seriouslyPort.toLowerCase()
+
       type = input.type
       if type is 'image'
-        @inPorts[key] = new noflo.Port 'object'
-        @inPorts[key].on 'data', @syncGraph.bind @, key
-        @inPorts[key].on 'disconnect', @unsyncGraph.bind @, key
+        @inPorts[nofloPort] = new noflo.Port 'object'
+        @inPorts[nofloPort].on 'data', @syncGraph.bind @, nofloPort, seriouslyPort
+        @inPorts[nofloPort].on 'disconnect', @unsyncGraph.bind @, nofloPort, seriouslyPort
       else
-        @inPorts[key] = new noflo.Port type
-        @inPorts[key].on 'data', @setParam.bind(@,key)
+        @inPorts[nofloPort] = new noflo.Port type
+        @inPorts[nofloPort].on 'data', @setParam.bind @, nofloPort, seriouslyPort
 
-  syncGraph: (inport, upstream) ->
+  syncGraph: (nofloPort, seriouslyPort, upstream) ->
     # Connect another effect to this effect
     return unless upstream
-    @sources[inport] = upstream
-    @seriouslyNode[inport] = upstream
+    @sources[nofloPort] = upstream
+    @seriouslyNode[seriouslyPort] = upstream
     if @outPorts.out.isAttached()
       @outPorts.out.send @seriouslyNode
 
-  unsyncGraph: (inport) ->
-    @seriouslyNode[inport] = null
-    delete @sources[inport]
+  unsyncGraph: (nofloPort, seriouslyPort) ->
+    @seriouslyNode[seriouslyPort] = null
+    delete @sources[nofloPort]
     if @outPorts.out.isAttached()
       @outPorts.out.disconnect()
 
-  setParam: (key, data) -> # this is bound, so use -> not =>
-    @seriouslyNode[key] = data
+  setParam: (nofloPort, seriouslyPort, data) -> # this is bound, so use -> not =>
+    @seriouslyNode[seriouslyPort] = data
 
   shutdown: ->
     for key, val of @sources
