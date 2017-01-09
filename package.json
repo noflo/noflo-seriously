@@ -20,19 +20,19 @@
     "noflo": "~0.7.9"
   },
   "devDependencies": {
-    "grunt": "~1.0.1",
-    "grunt-contrib-coffee": "~1.0.0",
-    "grunt-coffeelint": "~0.0.6",
-    "grunt-cafe-mocha": "~0.1.2",
     "chai": "~3.5.0",
-    "mocha": "~3.2.0",
-    "grunt-mocha-phantomjs": "~4.0.0",
+    "component-json": "~0.1.4",
+    "grunt": "~1.0.1",
+    "grunt-coffeelint": "~0.0.6",
+    "grunt-combine": "~0.8.3",
+    "grunt-component": "~0.1.2",
     "grunt-component-build": "~0.5.3",
+    "grunt-contrib-coffee": "~1.0.0",
     "grunt-contrib-uglify": "~2.0.0",
     "grunt-contrib-watch": "~1.0.0",
-    "component-json": "~0.1.4",
-    "grunt-combine": "~0.8.3",
-    "grunt-component": "~0.1.2"
+    "grunt-mocha-phantomjs": "~4.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "mocha": "~3.2.0"
   },
   "keywords": []
 }
