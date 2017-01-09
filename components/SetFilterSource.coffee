@@ -8,14 +8,14 @@ class SetFilterSource extends noflo.Component
       window.nofloSeriously = new Seriously()
     @seriously = window.nofloSeriously
 
-    @inPorts = 
+    @inPorts =
       source: new noflo.Port 'object' # dom image, video, webgl texture
 
     @outPorts =
       out: new noflo.ArrayPort 'object' # seriously
 
-    @inPorts.source.on('data', @setSource);
-    # @inPorts.source.on('disconnect', @unsyncSource);
+    @inPorts.source.on('data', @setSource)
+    # @inPorts.source.on('disconnect', @unsyncSource)
 
   setSource: (data) =>
     # @seriouslyNode.source = data
@@ -26,7 +26,7 @@ class SetFilterSource extends noflo.Component
   #   # TODO noflo bug?
   #   # console.log event
   #   @seriouslyNode.source = null
-  #   if @seriouslyStarted 
+  #   if @seriouslyStarted
   #     @seriously.stop()
   #     @seriouslyStarted = false
 

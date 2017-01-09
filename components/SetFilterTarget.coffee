@@ -8,13 +8,13 @@ class SetFilterTarget extends noflo.Component
       window.nofloSeriously = new Seriously()
     @seriously = window.nofloSeriously
 
-    @inPorts = 
+    @inPorts =
       source: new noflo.ArrayPort 'object' # seriously
       target: new noflo.Port 'object'
 
-    @inPorts.source.on('data', @syncSource);
-    @inPorts.source.on('disconnect', @unsyncSource);
-    @inPorts.target.on('data', @setTarget);
+    @inPorts.source.on('data', @syncSource)
+    @inPorts.source.on('disconnect', @unsyncSource)
+    @inPorts.target.on('data', @setTarget)
 
   syncSource: (upstream) =>
     return unless upstream
@@ -27,12 +27,12 @@ class SetFilterTarget extends noflo.Component
 
   unsyncSource: (event) =>
     # TODO noflo bug?
-    if @seriouslyStarted 
+    if @seriouslyStarted
       @seriously.stop()
       @seriouslyStarted = false
 
   setTarget: (data) =>
-    @seriouslyNode = @seriously.target(data);
+    @seriouslyNode = @seriously.target(data)
     if @upstream
       @seriouslyNode.source = @upstream
       @seriouslyGo()
