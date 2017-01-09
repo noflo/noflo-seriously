@@ -26,11 +26,14 @@ class exports.SeriouslyEffect extends noflo.Component
       type = input.type
       if type is 'image'
         @inPorts[nofloPort] = new noflo.Port 'object'
-        @inPorts[nofloPort].on 'data', @syncGraph.bind @, nofloPort, seriouslyPort
-        @inPorts[nofloPort].on 'disconnect', @unsyncGraph.bind @, nofloPort, seriouslyPort
+        @inPorts[nofloPort].on 'data',
+          @syncGraph.bind @, nofloPort, seriouslyPort
+        @inPorts[nofloPort].on 'disconnect',
+          @unsyncGraph.bind @, nofloPort, seriouslyPort
       else
         @inPorts[nofloPort] = new noflo.Port type
-        @inPorts[nofloPort].on 'data', @setParam.bind @, nofloPort, seriouslyPort
+        @inPorts[nofloPort].on 'data',
+          @setParam.bind @, nofloPort, seriouslyPort
 
   syncGraph: (nofloPort, seriouslyPort, upstream) ->
     # Connect another effect to this effect
@@ -46,7 +49,8 @@ class exports.SeriouslyEffect extends noflo.Component
     if @outPorts.out.isAttached()
       @outPorts.out.disconnect()
 
-  setParam: (nofloPort, seriouslyPort, data) -> # this is bound, so use -> not =>
+  setParam: (nofloPort, seriouslyPort, data) ->
+    # this is bound, so use -> not =>
     @seriouslyNode[seriouslyPort] = data
 
   shutdown: ->

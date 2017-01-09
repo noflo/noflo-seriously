@@ -2,6 +2,8 @@ noflo = require 'noflo'
 Seriously = require '../vendor/seriously.js'
 Effect = require '../vendor/effects/seriously.hue-saturation.js'
 
+# @runtime noflo-browser
+
 {SeriouslyEffect} = require '../lib/SeriouslyEffect'
 
 class FilterHueSaturation extends SeriouslyEffect

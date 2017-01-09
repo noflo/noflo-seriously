@@ -2,6 +2,8 @@ noflo = require 'noflo'
 Seriously = require '../vendor/seriously.js'
 Effect = require '../vendor/effects/seriously.edge.js'
 
+# @runtime noflo-browser
+
 {SeriouslyEffect} = require '../lib/SeriouslyEffect'
 
 class FilterEdge extends SeriouslyEffect
