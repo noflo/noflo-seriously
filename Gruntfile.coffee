@@ -67,7 +67,7 @@ module.exports = ->
   @registerTask 'build', 'Build NoFlo for the chosen target platform', (target = 'all') =>
     @task.run 'coffee'
     if target is 'all' or target is 'browser'
-      @task.run 'noflo-browser'
+      @task.run 'noflo_browser'
       @task.run 'uglify'
 
   @registerTask 'test', 'Build NoFlo and run automated tests', (target = 'all') =>
@@ -76,7 +76,7 @@ module.exports = ->
     if target is 'all' or target is 'nodejs'
       @task.run 'mochaTest'
     if target is 'all' or target is 'browser'
-      @task.run 'noflo-browser'
+      @task.run 'noflo_browser'
       @task.run 'mocha_phantomjs'
 
   @registerTask 'default', ['test']
