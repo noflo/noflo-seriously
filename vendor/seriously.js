@@ -6,7 +6,7 @@
 		// Node. Does not work with strict CommonJS, but
 		// only CommonJS-like enviroments that support module.exports,
 		// like Node.
-		module.exports = factory(root);
+		module.exports = factory(window);
 	} else if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define('seriously', function () {
@@ -357,7 +357,6 @@
 		return Array.isArray(obj) ||
 			(obj && obj.BYTES_PER_ELEMENT && 'length' in obj);
 	}
-
 	window.addEventListener('message', function (event) {
 		if (event.source === window && event.data === 'seriously-timeout-message') {
 			event.stopPropagation();
