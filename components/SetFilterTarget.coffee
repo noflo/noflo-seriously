@@ -1,6 +1,8 @@
 noflo = require 'noflo'
 Seriously = require '../vendor/seriously.js'
 
+# @runtime noflo-browser
+
 class SetFilterTarget extends noflo.Component
 
   constructor: () ->
